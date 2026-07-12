@@ -1,0 +1,47 @@
+@startuml ttt
+
+state flopr_pc_inst {
+    state PC_i
+    state PC_o
+}
+
+state regfile {
+    state rf_a0
+    state rf_a1
+    state aw
+    aw : LL instruction[8:6]
+    state rf_wd
+    rf_wd : LL instruction[5:0] 
+    state rf_r0 
+    state rf_r1
+}
+
+state memory {
+    state mem_adr
+    state mem_data_i
+    state mem_data_o
+}
+
+state tmp_i {
+    state tmp_i_data_i
+    state tmp_i_data_o
+}
+
+1 --> PC_i
+PC_o --> mem_adr
+
+mem_data_o --> tmp_i_data_i
+tmp_i_data_o --> aw
+tmp_i_data_o --> rf_wd
+
+st_fetch --> st_tmp_i
+st_tmp_i : [i_write = 1]
+st_tmp_i --> st_regfile_w
+st_regfile_w : [regf_write = 1]
+st_regfile_w --> st_fetch
+
+
+
+
+
+@enduml

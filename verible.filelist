@@ -1,0 +1,6 @@
+flopr_i.sv
+flopr_pc.sv 
+mem.sv
+regfile.sv
+proc_top.sv
+tb_proc_top.sv
