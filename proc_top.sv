@@ -3,19 +3,19 @@ module proc_top (
     input rst
 );
 reg [11:0] PC;
-reg PC_en;
+reg PCEn;
 wire [11:0] mem_adr;
 wire [11:0] mem_din;
 wire [11:0] mem_dout;
 wire [11:0] instr_dout;
 reg mem_write = 0;
-reg instr_write = 0;
-reg reg_file_write = 0;
+reg instrWrite = 0;
+reg regFileWrite = 0;
 
 flopr_pc flopr_pc_inst(
 .clk(clk),
 .rst(rst),
-.EN(PC_en),
+.EN(PCEn),
 .PC_i(1'b1),
 .PC_o(PC)
 );
@@ -34,7 +34,7 @@ mem mem_inst (
 flopr_i flopr_i_inst (
 .clk(clk),
 .rst(rst),
-.instr_write(instr_write),
+.instrWrite(instrWrite),
 .fi_din(mem_dout),
 .fi_dout(instr_dout)
 );
@@ -42,7 +42,7 @@ flopr_i flopr_i_inst (
 regfile regfile_inst(
 .clk(clk),
 .rst(rst),
-.we(reg_file_write),
+.we(regFileWrite),
 .a1(),
 .a2(),
 .aw(instr_dout[8:6]),
@@ -51,39 +51,14 @@ regfile regfile_inst(
 .rd2()
 );
 
-typedef enum {st_fetch,st_regfile_w,st_pc} states_t;
-states_t state,nexst_state;
-
-always_ff @(posedge clk)
-  if (rst) state <= st_fetch;
-  else state <= nexst_state;
-
-always_comb begin
-  nexst_state = st_fetch;
-  reg_file_write = 0;
-  instr_write = 0;
-  PC_en = 0;
-  unique case(state)
-    st_pc: begin
-      nexst_state = st_fetch;
-      instr_write = 0;
-      reg_file_write = 0;
-      PC_en = 1;
-    end
-    st_fetch: begin
-      nexst_state = st_regfile_w;
-      instr_write = 1;
-      reg_file_write = 0;
-      PC_en = 0;
-    end
-    st_regfile_w: begin
-      nexst_state = st_pc;
-      instr_write = 0;
-      reg_file_write = 1;
-      PC_en = 0;
-    end
-  endcase
-end
+control_unit control_unit_inst (
+.clk(clk),
+.rst(rst),
+.opcode(instr_dout[11:9]),
+.regFileWrite(regFileWrite),
+.instrWrite(instrWrite),
+.PCEn(PCEn)
+);
 
 
 endmodule

@@ -25,6 +25,7 @@ state memory {
 state tmp_i {
     state tmp_i_data_i
     state tmp_i_data_o
+    state opcode
 }
 
 1 --> PC_i
@@ -34,12 +35,14 @@ mem_data_o --> tmp_i_data_i
 tmp_i_data_o --> aw
 tmp_i_data_o --> rf_wd
 
-st_fetch --> st_tmp_i
-st_tmp_i : [i_write = 1]
-st_tmp_i --> st_regfile_w
-st_regfile_w : [regf_write = 1]
-st_regfile_w --> st_fetch
+state fsm {
+    state op
+}
 
+opcode --> fsm
+fsm --> tmp_i
+fsm --> regfile
+fsm --> flopr_pc_inst
 
 
 

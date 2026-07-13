@@ -1,0 +1,10 @@
+@startuml ttt
+
+stFetch --> stRegfileW :[*]
+stFetch : [instrWrite = 1]
+stRegfileW --> stPc :[*]
+stRegfileW : [regFileWrite = 1]
+stPc --> stFetch :[*]
+stPc : [PCEn = 1]
+
+@enduml
