@@ -1,6 +1,7 @@
-module proc_top (
+module proc_top #(parameter MEM_LEN = 1) (
     input clk,
-    input rst
+    input rst,
+    input [MEM_LEN:0][11:0] load_data
 );
 reg [11:0] PC;
 reg PCEn;
@@ -22,13 +23,14 @@ flopr_pc flopr_pc_inst(
 
 assign mem_adr = PC;
 
-mem mem_inst (
+mem #(.MEM_LEN(MEM_LEN)) mem_inst (
 .clk(clk),
 .rst(rst),
 .wr(mem_write),
 .adr(mem_adr),
 .din(mem_din),
-.dout(mem_dout)
+.dout(mem_dout),
+.load_data(load_data)
 );
 
 flopr_i flopr_i_inst (
