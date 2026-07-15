@@ -13,7 +13,7 @@ reg [(MEM_LEN - 1):0][11:0] mem ;
 
 always_ff @(posedge clk)
   if (rst)
-    mem[adr] <= load_data;
+    mem <= load_data;
   else
     if (wr)
       mem[adr] <= din;

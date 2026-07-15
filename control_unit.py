@@ -7,16 +7,18 @@ root_state = 'stFetch'  #/////////////////////////////////param
 forced_val_prior = '0'; #/////////////////////////////////param
 
 states_set = {
-    "stPc",
-    "stFetch",
-    "stRegfileW"
+    'stPc',
+    'stFetch',
+    'stRegfileW',
+    'stMemWriteLW'
 }
 
 names_w_type_o : dict[str,str] = {}
 names_w_type_o['instrWrite'] = 'output reg '
 names_w_type_o['regFileWrite'] = 'output reg '
 names_w_type_o['PCEn'] = 'output reg '
-
+names_w_type_o['memWrite'] = 'output reg '
+names_w_type_o['muxAdr'] = 'output reg '
 
 
 names_w_type_i : dict[str,str] = {}

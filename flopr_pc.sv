@@ -9,6 +9,6 @@ always_ff @(posedge clk, posedge rst)
     if (rst) PC_o <= 0;
     else
     if (EN)
-        PC_o <= PC_o + PC_i;
+        PC_o <= PC_o + 1;
 
 endmodule

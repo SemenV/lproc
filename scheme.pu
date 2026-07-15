@@ -7,12 +7,14 @@ state flopr_pc_inst {
 
 state regfile {
     state rf_a0
+    rf_a0 : LW instruction[5:3]
     state rf_a1
     state aw
     aw : LL instruction[8:6]
     state rf_wd
     rf_wd : LL instruction[5:0] 
     state rf_r0 
+    
     state rf_r1
 }
 
@@ -28,8 +30,18 @@ state tmp_i {
     state opcode
 }
 
+state mem_adr_mux #dd0000 {
+   state mem_adr_mux_0_i
+   state mem_adr_mux_1_i
+   state mem_adr_mux_o
+}
+
 1 --> PC_i
-PC_o --> mem_adr
+
+PC_o -[#dd0000]-> mem_adr_mux_0_i
+rf_r0 -[#dd0000]-> mem_adr_mux_1_i
+mem_adr_mux_o -[#dd0000]-> mem_adr
+
 
 mem_data_o --> tmp_i_data_i
 tmp_i_data_o --> aw
@@ -43,8 +55,6 @@ opcode --> fsm
 fsm --> tmp_i
 fsm --> regfile
 fsm --> flopr_pc_inst
-
-
-
-
+ 
+tmp_i_data_o -[#dd0000]-> rf_a0
 @enduml

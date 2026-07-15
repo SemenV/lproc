@@ -1,6 +1,10 @@
 @startuml ttt
 
-stFetch --> stRegfileW :[*]
+stFetch --> stRegfileW : [000]
+stFetch --> stMemWriteLW : [001]
+stMemWriteLW : [ memWrite = 1]
+stMemWriteLW : [ muxAdr = 1]
+stMemWriteLW --> stRegfileW : [*]
 stFetch : [instrWrite = 1]
 stRegfileW --> stPc :[*]
 stRegfileW : [regFileWrite = 1]
