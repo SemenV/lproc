@@ -5,6 +5,19 @@ state flopr_pc_inst {
     state PC_o
 }
 
+
+state mem_inst {
+    state mem_adr
+    state mem_din
+    state mem_dout
+}
+
+
+state flopr_i_inst {
+    state fi_din
+    state fi_dout
+}
+
 state regfile {
     state rf_a0
     state rf_a1
@@ -17,21 +30,10 @@ state regfile {
 }
 
 
-
-state mem_inst {
-    state mem_adr
-    state mem_din
-    state mem_dout
+state flopr_after_reg {
+    state fa_din
+    state fa_dout
 }
-
-
-
-state flopr_i_inst {
-    state fi_din
-    state fi_dout
-}
-
-
 
 
 state fsm {
@@ -52,5 +54,11 @@ state equal_regs {
     state eq_reg_1_i
     state r_equal
 }
+
+mem_dout --> fi_din
+fi_dout --> alu_0_i
+ALUResult --> rf_wd
+fi_dout --> rf_aw
+PC_o --> mem_adr
 
 @enduml

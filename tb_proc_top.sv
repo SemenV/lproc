@@ -15,6 +15,11 @@ proc_top #(.MEM_LEN(MEM_LEN)) proc_top_inst (
 
 initial begin
   tb_rst <= 1;
+  tb_load_data[0] <= 12'b000_001_111111;
+
+
+  tb_load_data[1] <= 12'b000_010_111111;
+  tb_load_data[2] <= 12'b000_100_111111;
   repeat (2) @(posedge tb_clk);
   tb_rst <= 0;
 

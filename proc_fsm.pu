@@ -1,5 +1,14 @@
 @startuml ttt
-' stFetch --> stOpcodeUpdate : [*] //example
-' stFetch : [instrWrite = 1]
 
+stInstrWrite --> stRegFileWr : [*]
+stInstrWrite : [instrWrite = 1]
+
+
+stRegFileWr --> stPCUpdate : [*]
+stRegFileWr : [regFileWr = 1]
+stRegFileWr : [aluOp = 0] 
+
+
+stPCUpdate --> stInstrWrite : [*]
+stPCUpdate : [floprPcUpdate = 1]
 @enduml

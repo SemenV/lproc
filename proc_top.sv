@@ -6,82 +6,82 @@ module proc_top #(parameter MEM_LEN = 1) (
 wire [11:0] PC;
 wire PCEn;
 wire [11:0] mem_adr;
-wire [11:0] mem_din;
+wire [11:0] PC_o;
 wire [11:0] mem_dout;
-wire [11:0] instr_dout;
-wire [11:0] rd0,rd1,rd2;
-wire [1:0] aluOp;
 wire [11:0] ALUResult;
-wire mem_write;
 wire instrWrite;
-wire regFileWrite;
-wire memWrite;
-wire muxAdr;
+wire [2:0] aluOp;
+wire floprPcUpdate;
+wire regFileWr;
+wire [11:0] fi_dout;
 wire [11:0] PC_i;
-wire pcNewVal;
-wire beq;
 
+assign PC_i = PC_o + 12'b1;
 
 
 flopr_pc flopr_pc_inst(
 .clk(clk),
 .rst(rst),
-.EN(),
-.PC_i(),
-.PC_o()
+.EN(floprPcUpdate),
+.PC_i(PC_i),
+.PC_o(PC_o)
 );
 
 mem #(.MEM_LEN(MEM_LEN)) mem_inst (
 .clk(clk),
 .rst(rst),
 .wr(),
-.adr(),
+.adr(PC_o),
 .din(),
-.dout(),
-.load_data()
+.dout(mem_dout),
+.load_data(load_data)
 );
 
 flopr_i flopr_i_inst (
 .clk(clk),
 .rst(rst),
-.instrWrite(),
-.fi_din(),
-.fi_dout()
+.instrWrite(instrWrite),
+.fi_din(mem_dout),
+.fi_dout(fi_dout)
 );
 
 regfile regfile_inst(
 .clk(clk),
 .rst(rst),
-.we(),
+.we(regFileWr),
 .a0(),
 .a1(),
 .a2(),
-.aw(),
-.wd(),
+.aw(fi_dout[8:6]),
+.wd(ALUResult),
 .rd0(),
 .rd1(),
 .rd2()
 );
 
+flopr_after_reg flopr_after_reg_inst (
+.clk(),
+.rst(),
+.FARW(),
+.far_din(),
+.far_dout()
+);
+
 control_unit control_unit_inst (
 .clk(clk),
 .rst(rst),
-.opcode(),
-.regFileWrite(),
-.instrWrite(),
-.PCEn(),
-.memWrite(),
-.muxAdr(),
-.aluOp(),
-.pcNewVal(),
-.beq()
+.opcode(fi_dout[11:9]),
+.instrWrite(instrWrite),
+.regFileWr(regFileWr),
+.floprPcUpdate(floprPcUpdate),
+.aluOp(aluOp)
 );
 
 alu alu_inst (
-.aluOp(),
-.alu_0_i(),
+.aluOp(aluOp),
+.alu_0_i(fi_dout),
 .alu_1_i(),
 .alu_2_i(),
-.ALUResult()
+.ALUResult(ALUResult)
 );
 endmodule
