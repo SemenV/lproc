@@ -3,71 +3,85 @@ module proc_top #(parameter MEM_LEN = 1) (
     input rst,
     input [(MEM_LEN - 1):0][11:0] load_data
 );
-reg [11:0] PC;
-reg PCEn;
+wire [11:0] PC;
+wire PCEn;
 wire [11:0] mem_adr;
 wire [11:0] mem_din;
 wire [11:0] mem_dout;
 wire [11:0] instr_dout;
-wire [11:0] rd0;
+wire [11:0] rd0,rd1,rd2;
+wire [1:0] aluOp;
+wire [11:0] ALUResult;
 wire mem_write;
 wire instrWrite;
-reg regFileWrite;
-reg memWrite;
-reg muxAdr;
+wire regFileWrite;
+wire memWrite;
+wire muxAdr;
+wire [11:0] PC_i;
+wire pcNewVal;
+wire beq;
+
+
 
 flopr_pc flopr_pc_inst(
 .clk(clk),
 .rst(rst),
-.EN(PCEn),
-.PC_i(1'b1),
-.PC_o(PC)
+.EN(),
+.PC_i(),
+.PC_o()
 );
-
-assign mem_adr = PC;
 
 mem #(.MEM_LEN(MEM_LEN)) mem_inst (
 .clk(clk),
 .rst(rst),
-.wr(mem_write),
-.adr(mem_adr),
-.din(mem_din),
-.dout(mem_dout),
-.load_data(load_data)
+.wr(),
+.adr(),
+.din(),
+.dout(),
+.load_data()
 );
 
 flopr_i flopr_i_inst (
 .clk(clk),
 .rst(rst),
-.instrWrite(instrWrite),
-.fi_din(mem_dout),
-.fi_dout(instr_dout)
+.instrWrite(),
+.fi_din(),
+.fi_dout()
 );
 
 regfile regfile_inst(
 .clk(clk),
 .rst(rst),
-.we(regFileWrite),
-.a0(instr_dout[5:3]),
+.we(),
+.a0(),
 .a1(),
-.aw(instr_dout[8:6]),
-.wd({6'b0,instr_dout[5:0]}),
-.rd0(rd0),
-.rd1()
+.a2(),
+.aw(),
+.wd(),
+.rd0(),
+.rd1(),
+.rd2()
 );
-
-assign mem_adr = muxAdr ? rd0 : PC;
 
 control_unit control_unit_inst (
 .clk(clk),
 .rst(rst),
-.opcode(instr_dout[11:9]),
-.regFileWrite(regFileWrite),
-.instrWrite(instrWrite),
-.PCEn(PCEn),
-.memWrite(memWrite),
-.muxAdr(muxAdr)
+.opcode(),
+.regFileWrite(),
+.instrWrite(),
+.PCEn(),
+.memWrite(),
+.muxAdr(),
+.aluOp(),
+.pcNewVal(),
+.beq()
 );
 
-
+alu alu_inst (
+.aluOp(),
+.alu_0_i(),
+.alu_1_i(),
+.alu_2_i(),
+.ALUResult()
+);
 endmodule

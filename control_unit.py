@@ -10,7 +10,10 @@ states_set = {
     'stPc',
     'stFetch',
     'stRegfileW',
-    'stMemWriteLW'
+    'stMemWriteLW',
+    'stTmpQ',
+    'stPCChoise',
+    'stOpcodeUpdate'
 }
 
 names_w_type_o : dict[str,str] = {}
@@ -19,17 +22,19 @@ names_w_type_o['regFileWrite'] = 'output reg '
 names_w_type_o['PCEn'] = 'output reg '
 names_w_type_o['memWrite'] = 'output reg '
 names_w_type_o['muxAdr'] = 'output reg '
+names_w_type_o['aluOp'] = 'output reg [1:0] ' #becouse of commands
+names_w_type_o['pcNewVal'] = 'output reg '
 
 
 names_w_type_i : dict[str,str] = {}
 names_w_type_i['opcode'] = 'input [2:0] '
-
+names_w_type_i['beq'] = 'input '
 
 
 class g_Arrow():
     def __init__(self):
         self.conditions = []
-        self.condition_size = '7\'b'; #/////////////////////////////////param
+        self.condition_size = '4\'b'; #/////////////////////////////////param
 
 class g_Node():
     def __init__(self):
@@ -198,7 +203,12 @@ def generate(
         outer_string += f_val_res
 
         #inner case
-        inner_string = '        ' +'case(opcode)\n'
+        inner_string = '        casez({'
+        for i in in_out.keys():
+            inner_string = inner_string + i + ',' 
+        inner_string = inner_string[:-1]
+        inner_string += '})\n'
+
         for arrow, node_child in node.children.items():
 
             steps_str = ''

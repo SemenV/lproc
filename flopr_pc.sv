@@ -6,9 +6,9 @@ output logic [11:0] PC_o
 );
 
 always_ff @(posedge clk, posedge rst)
-    if (rst) PC_o <= 0;
+    if (rst) PC_o <= 12'b0;
     else
     if (EN)
-        PC_o <= PC_o + 1;
+        PC_o <= PC_i;
 
 endmodule

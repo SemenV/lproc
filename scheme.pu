@@ -7,54 +7,50 @@ state flopr_pc_inst {
 
 state regfile {
     state rf_a0
-    rf_a0 : LW instruction[5:3]
     state rf_a1
-    state aw
-    aw : LL instruction[8:6]
-    state rf_wd
-    rf_wd : LL instruction[5:0] 
+    state rf_a2
+    state rf_aw
+    state rf_wd 
     state rf_r0 
-    
     state rf_r1
+    state rf_r2
 }
 
-state memory {
+
+
+state mem_inst {
     state mem_adr
-    state mem_data_i
-    state mem_data_o
+    state mem_din
+    state mem_dout
 }
 
-state tmp_i {
-    state tmp_i_data_i
-    state tmp_i_data_o
-    state opcode
+
+
+state flopr_i_inst {
+    state fi_din
+    state fi_dout
 }
 
-state mem_adr_mux #dd0000 {
-   state mem_adr_mux_0_i
-   state mem_adr_mux_1_i
-   state mem_adr_mux_o
-}
-
-1 --> PC_i
-
-PC_o -[#dd0000]-> mem_adr_mux_0_i
-rf_r0 -[#dd0000]-> mem_adr_mux_1_i
-mem_adr_mux_o -[#dd0000]-> mem_adr
 
 
-mem_data_o --> tmp_i_data_i
-tmp_i_data_o --> aw
-tmp_i_data_o --> rf_wd
 
 state fsm {
-    state op
 }
 
-opcode --> fsm
-fsm --> tmp_i
-fsm --> regfile
-fsm --> flopr_pc_inst
- 
-tmp_i_data_o -[#dd0000]-> rf_a0
+
+state alu_inst {
+    state alu_0_i
+    state alu_1_i
+    state alu_2_i
+    state ALUResult
+}
+
+
+
+state equal_regs {
+    state eq_reg_0_i
+    state eq_reg_1_i
+    state r_equal
+}
+
 @enduml

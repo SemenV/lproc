@@ -5,3 +5,4 @@ regfile.sv
 proc_top.sv
 tb_proc_top.sv
 control_unit.sv
+alu.sv
