@@ -8,18 +8,35 @@ forced_val_prior = '0'; #/////////////////////////////////param
 
 states_set = {
     'stInstrWrite',
-    'stRegFileWr',
+    'stTMP',
+    'stBEQ',
+    'stBEQTrue',
+    'stSWMemWrite',
+    'stDataTMP',
+    'stLWWriteData',
+    'stRegFileWrLL',
     'stPCUpdate',
+    'stLSH',
+    'stOr',
+    'stAND',
 }
 
 names_w_type_o : dict[str,str] = {}
-names_w_type_o['floprPcUpdate'] = 'output reg '
-names_w_type_o['instrWrite'] = 'output reg '
+names_w_type_o['aluOp'] = 'output reg [2:0]   '
 names_w_type_o['regFileWr'] = 'output reg '
+names_w_type_o['instrWrite'] = 'output reg '
+names_w_type_o['mux1'] = 'output reg '
+names_w_type_o['mux2'] = 'output reg '
+names_w_type_o['mux0'] = 'output reg '
+names_w_type_o['pcUpdate'] = 'output reg '
+names_w_type_o['memWrite'] = 'output reg '
+names_w_type_o['dataTMPWr'] = 'output reg '
+names_w_type_o['floprPcUpdate'] = 'output reg '
 
 
 names_w_type_i : dict[str,str] = {}
-names_w_type_i['opcode'] = 'input [2:0] '
+names_w_type_i['opcode'] = 'input wire [2:0] '
+names_w_type_i['beq'] = 'input wire '
 
 
 class g_Arrow():
@@ -226,13 +243,11 @@ def generate(
 (
 input clk,
 input rst,
-output reg [2:0]  aluOp,
 {in_out_str}
 );
 typedef enum {{ 
 {states_str}    
 }} states_type;
-assign aluOp = opcode;
 states_type state, nextstate;
 
 always_ff @(posedge clk, posedge rst)

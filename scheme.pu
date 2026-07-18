@@ -61,8 +61,5 @@ state equal_regs {
     state r_equal
 }
 
-mem_dout --> fi_din
-fi_dout --> alu_0_i
-ALUResult --> rf_wd
-fi_dout --> rf_aw
+
 @enduml

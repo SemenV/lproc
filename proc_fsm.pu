@@ -1,12 +1,65 @@
 @startuml ttt
 
 
-stInstrWrite --> stRegFileWr : [*]
+stInstrWrite --> stTMP : [*]
 stInstrWrite : [instrWrite = 1]
 
+stTMP --> stRegFileWrLL : [000_?]
+stTMP --> stDataTMP : [001_?]
+stTMP --> stSWMemWrite : [010_?]
+stTMP --> stBEQ : [110_?]
+stTMP --> stLSH : [011_?]
+stTMP --> stOr : [100_?]
+stTMP --> stAND : [101_?]
 
-stRegFileWr --> stPCUpdate : [*]
-stRegFileWr : [regFileWr = 1]
+stLSH --> stPCUpdate : [*]
+stLSH : [aluOp = 11]
+stLSH : [mux1 = 1]
+stLSH : [mux2 = 0]
+stLSH : [regFileWr = 1]
+
+stOr --> stPCUpdate : [*]
+stOr : [aluOp = 100]
+stOr : [mux1 = 1]
+stOr : [mux2 = 0]
+stOr : [regFileWr = 1]
+
+
+stAND --> stPCUpdate : [*]
+stAND : [aluOp = 101]
+stAND : [mux1 = 1]
+stAND : [mux2 = 0]
+stAND : [regFileWr = 1]
+
+
+stBEQ --> stPCUpdate : [110_0]
+stBEQ --> stBEQTrue : [110_1]
+
+
+stBEQTrue --> stInstrWrite : [*]
+stBEQTrue : [mux2 = 0]
+stBEQTrue : [aluOp = 10]
+stBEQTrue : [pcUpdate = 1]
+
+
+stSWMemWrite --> stPCUpdate : [*]
+stSWMemWrite : [memWrite = 1]
+
+stDataTMP --> stLWWriteData : [*]
+stDataTMP : [mux1 = 1]
+stDataTMP : [aluOp = 1]
+stDataTMP : [mux0 = 1]
+stDataTMP : [dataTMPWr = 1]
+
+
+stLWWriteData --> stPCUpdate : [*]
+stLWWriteData : [mux2 = 1]
+stLWWriteData : [regFileWr = 1]
+
+stRegFileWrLL --> stPCUpdate : [*]
+stRegFileWrLL : [regFileWr = 1]
+stRegFileWrLL : [mux1 = 0]
+stRegFileWrLL : [aluOp = 0]
  
 
 
