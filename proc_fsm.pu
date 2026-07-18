@@ -13,7 +13,7 @@ stTMP --> stOr : [100_?]
 stTMP --> stAND : [101_?]
 
 stLSH --> stPCUpdate : [*]
-stLSH : [aluOp = 11]
+stLSH : [aluOp = 011]
 stLSH : [mux1 = 1]
 stLSH : [mux2 = 0]
 stLSH : [regFileWr = 1]
@@ -38,28 +38,33 @@ stBEQ --> stBEQTrue : [110_1]
 
 stBEQTrue --> stInstrWrite : [*]
 stBEQTrue : [mux2 = 0]
-stBEQTrue : [aluOp = 10]
-stBEQTrue : [pcUpdate = 1]
+stBEQTrue : [aluOp = 010]
+stBEQTrue : [floprPcMUX = 1]
+stBEQTrue : [floprPcUpdate = 1]
 
 
 stSWMemWrite --> stPCUpdate : [*]
 stSWMemWrite : [memWrite = 1]
+stSWMemWrite : [aluOp = 111]
+stSWMemWrite : [mux1 = 1]
+stSWMemWrite : [mux0 = 1]
 
 stDataTMP --> stLWWriteData : [*]
 stDataTMP : [mux1 = 1]
-stDataTMP : [aluOp = 1]
+stDataTMP : [aluOp = 001]
 stDataTMP : [mux0 = 1]
 stDataTMP : [dataTMPWr = 1]
 
 
 stLWWriteData --> stPCUpdate : [*]
 stLWWriteData : [mux2 = 1]
+stLWWriteData : [aluOp = 110]
 stLWWriteData : [regFileWr = 1]
 
 stRegFileWrLL --> stPCUpdate : [*]
 stRegFileWrLL : [regFileWr = 1]
 stRegFileWrLL : [mux1 = 0]
-stRegFileWrLL : [aluOp = 0]
+stRegFileWrLL : [aluOp = 000]
  
 
 

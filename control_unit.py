@@ -28,10 +28,10 @@ names_w_type_o['instrWrite'] = 'output reg '
 names_w_type_o['mux1'] = 'output reg '
 names_w_type_o['mux2'] = 'output reg '
 names_w_type_o['mux0'] = 'output reg '
-names_w_type_o['pcUpdate'] = 'output reg '
 names_w_type_o['memWrite'] = 'output reg '
 names_w_type_o['dataTMPWr'] = 'output reg '
 names_w_type_o['floprPcUpdate'] = 'output reg '
+names_w_type_o['floprPcMUX'] = 'output reg '
 
 
 names_w_type_i : dict[str,str] = {}

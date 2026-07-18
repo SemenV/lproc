@@ -7,9 +7,15 @@ output logic [11:0] ALUResult);
 
 always_comb
   case (aluOp)
-    0: ALUResult = {6'b0,alu_0_i[5:0]};
-    1: ALUResult = alu_1_i;
-    default: ALUResult = 'b1;
+    3'b000: ALUResult = {6'b0,alu_0_i[5:0]};
+    3'b001: ALUResult = alu_0_i;
+    3'b010: ALUResult = alu_1_i;
+    3'b011: ALUResult = alu_0_i << alu_1_i;
+    3'b100: ALUResult = alu_0_i | alu_1_i;
+    3'b101: ALUResult = alu_0_i & alu_1_i;
+    3'b110: ALUResult = alu_1_i;
+    3'b111: ALUResult = alu_0_i;
+    default: ALUResult = 'bx;
   endcase
 
 

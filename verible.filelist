@@ -7,3 +7,4 @@ tb_proc_top.sv
 control_unit.sv
 alu.sv
 flopr_after_reg.sv
+flopr_i_d.sv
