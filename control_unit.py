@@ -13,7 +13,6 @@ states_set = {
 }
 
 names_w_type_o : dict[str,str] = {}
-names_w_type_o['aluOp'] = 'output reg [2:0] '
 names_w_type_o['floprPcUpdate'] = 'output reg '
 names_w_type_o['instrWrite'] = 'output reg '
 names_w_type_o['regFileWr'] = 'output reg '
@@ -227,12 +226,13 @@ def generate(
 (
 input clk,
 input rst,
+output reg [2:0]  aluOp,
 {in_out_str}
 );
 typedef enum {{ 
 {states_str}    
 }} states_type;
-
+assign aluOp = opcode;
 states_type state, nextstate;
 
 always_ff @(posedge clk, posedge rst)

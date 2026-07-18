@@ -1,12 +1,13 @@
 @startuml ttt
 
+
 stInstrWrite --> stRegFileWr : [*]
 stInstrWrite : [instrWrite = 1]
 
 
 stRegFileWr --> stPCUpdate : [*]
 stRegFileWr : [regFileWr = 1]
-stRegFileWr : [aluOp = 0] 
+ 
 
 
 stPCUpdate --> stInstrWrite : [*]

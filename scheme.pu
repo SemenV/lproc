@@ -31,8 +31,14 @@ state regfile {
 
 
 state flopr_after_reg {
-    state fa_din
-    state fa_dout
+    state far_din_0
+    state far_dout_0
+    
+    state far_din_1
+    state far_dout_1
+
+    state far_din_2
+    state far_dout_2
 }
 
 
@@ -59,6 +65,4 @@ mem_dout --> fi_din
 fi_dout --> alu_0_i
 ALUResult --> rf_wd
 fi_dout --> rf_aw
-PC_o --> mem_adr
-
 @enduml
