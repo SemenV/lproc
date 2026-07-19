@@ -15,24 +15,12 @@ proc_top #(.MEM_LEN(MEM_LEN)) proc_top_inst (
 
 initial begin
   tb_rst <= 1;
-  tb_load_data[0] <= 12'b000_001_000001;
-  tb_load_data[1] <= 12'b000_010_000011;
-
-  tb_load_data[2] <= 12'b011_100_001_010;
-
-  tb_load_data[3] <= 12'b110_000_000_100;
-  tb_load_data[4] <= 12'bx;
-  tb_load_data[5] <= 12'bx;
-  tb_load_data[6] <= 12'bx;
-  tb_load_data[7] <= 12'bx;
-  tb_load_data[8] <= 12'b101_111_001_010;
-  tb_load_data[9] <= 12'b000_101_010100;
-  tb_load_data[10] <= 12'b010_111_101_xxx;
+  `include "machine_code.txt"
 
   repeat (2) @(posedge tb_clk);
   tb_rst <= 0;
 
-  repeat (100) @(posedge tb_clk);
+  repeat (1000) @(posedge tb_clk);
   $finish();
 end
 

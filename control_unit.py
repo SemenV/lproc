@@ -1,7 +1,4 @@
-#redo
-
 import re
-from enum import Enum, auto
 
 root_state = 'stInstrWrite'  #/////////////////////////////////param
 forced_val_prior = '0'; #/////////////////////////////////param
@@ -17,8 +14,9 @@ states_set = {
     'stRegFileWrLL',
     'stPCUpdate',
     'stLSH',
-    'stOr',
+    'stOR',
     'stAND',
+    'stADD',
 }
 
 names_w_type_o : dict[str,str] = {}
