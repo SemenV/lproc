@@ -7,6 +7,8 @@ output logic [11:0] ALUResult);
 reg signed [11:0] signedShift;
 
 always_comb
+  begin
+  signedShift = 0;
   case (aluOp)
     3'b000: ALUResult = {6'b0,alu_0_i[5:0]};
     3'b001: ALUResult = alu_0_i;
@@ -24,6 +26,6 @@ always_comb
     3'b111: ALUResult = $signed(alu_0_i) + $signed(alu_1_i);
     default: ALUResult = 'bx;
   endcase
-
+  end
 
 endmodule 
