@@ -9,8 +9,8 @@ output logic [11:0] rd0,rd1,rd2
 
 logic [7:0][11:0] rf;
 
-always_ff @(posedge clk)
-    if (rst)
+always_ff @(posedge clk or negedge rst)
+    if (~rst)
         rf <= '0;
     else
         if (we)

@@ -248,8 +248,8 @@ typedef enum {{
 }} states_type;
 states_type state, nextstate;
 
-always_ff @(posedge clk, posedge rst)
-    if (rst) state <= {start_node};
+always_ff @(posedge clk or negedge rst)
+    if (~rst) state <= {start_node};
     else state <= nextstate;
 
 always_comb

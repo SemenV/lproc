@@ -1,7 +1,8 @@
-module proc_top #(parameter MEM_LEN = 1) (
+module proc_top #(parameter MEM_LEN = 1,LEDS_ADR = 0) (
     input clk,
     input rst,
-    input [(MEM_LEN - 1):0][11:0] load_data
+    input [(MEM_LEN - 1):0][11:0] load_data,
+    output [11:0] resInMem
 );
 wire [11:0] PC_o, PC_i;
 wire [11:0] mem_dout;
@@ -12,6 +13,7 @@ wire [11:0] mux0_adr;
 wire [11:0] rd0,rd1,rd2;
 wire [11:0] fd_dout;
 wire [2:0] aluOp;
+
 wire floprPcUpdate,floprPcMUX,regFileWr,instrWrite,memWrite,dataTMPWr,mux0,mux1,mux2;
 
 assign PC_i = floprPcMUX ? ALUResult : PC_o + 12'b1;
@@ -26,14 +28,15 @@ flopr_pc flopr_pc_inst(
 
 assign mux0_adr = (mux0 == 0) ? PC_o : ALUResult;
 
-mem #(.MEM_LEN(MEM_LEN)) mem_inst (
+mem #(.MEM_LEN(MEM_LEN),.LEDS_ADR(LEDS_ADR)) mem_inst (
 .clk(clk),
 .rst(rst),
 .wr(memWrite),
 .adr(mux0_adr),
 .din(rd1),
 .dout(mem_dout),
-.load_data(load_data)
+.load_data(load_data),
+.resInMem(resInMem)
 );
 
 flopr_i_d flopr_i_inst (
