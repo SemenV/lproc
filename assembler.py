@@ -64,9 +64,6 @@ ll,3,53,        18 куда сохранить результат
 sw,7,3,         27
 ll,3,0,
 beq,0,0,3,      28
-ll,3,127,
-ll,5,53,
-sw,3,5,
 '''
 
 
@@ -90,9 +87,9 @@ sw,3,5,
 
 # #sw 105    25
 # finish_vals += '''load_data[29] = 12'b000000000001;\n''' #нажатие
-finish_vals += '''load_data[50] = 12'b000_000_000_100;\n''' #instruction
-finish_vals += '''load_data[51] = 12'b000_000_001_001;\n''' #data1
-finish_vals += '''load_data[52] = 12'b000_000_000_101;\n''' #data2
+# finish_vals += '''load_data[50] = 12'b000_000_000_100;\n''' #instruction
+# finish_vals += '''load_data[51] = 12'b000_000_001_001;\n''' #data1
+# finish_vals += '''load_data[52] = 12'b000_000_000_101;\n''' #data2
 
 
 

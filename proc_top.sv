@@ -1,4 +1,10 @@
-module proc_top #(parameter MEM_LEN = 1,LEDS_ADR = 0) (
+module proc_top #(
+    MEM_LEN = 1,
+    LEDS_ADR = 0,
+    INSTR_ADR = 0,
+    DATA1_ADR = 0,
+    DATA2_ADR = 0
+    ) (
     input clk,
     input rst,
     input [(MEM_LEN - 1):0][11:0] load_data,
@@ -28,7 +34,13 @@ flopr_pc flopr_pc_inst(
 
 assign mux0_adr = (mux0 == 0) ? PC_o : ALUResult;
 
-mem #(.MEM_LEN(MEM_LEN),.LEDS_ADR(LEDS_ADR)) mem_inst (
+mem #(
+.MEM_LEN(MEM_LEN),
+.LEDS_ADR(LEDS_ADR),
+.INSTR_ADR(INSTR_ADR),
+.DATA1_ADR(DATA1_ADR),
+.DATA2_ADR(DATA2_ADR)
+) mem_inst (
 .clk(clk),
 .rst(rst),
 .wr(memWrite),

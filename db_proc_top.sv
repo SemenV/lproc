@@ -25,6 +25,9 @@ assign load_cmd = ~db_cmd_load;
 
 parameter MEM_LEN = 54;
 parameter LEDS_ADR = 53;
+parameter INSTR_ADR = 50;
+parameter DATA1_ADR = 51;
+parameter DATA2_ADR = 52;
 reg [(MEM_LEN - 1):0][11:0] load_data;
 
 always_comb
@@ -36,7 +39,24 @@ begin
     load_data[50] = {9'b000_000_000_0,db_instr};
   end
 
-proc_top #(.MEM_LEN(MEM_LEN),.LEDS_ADR(LEDS_ADR)) proc_top_inst (
+// reg [44:0] tmp = 0;
+// reg gen_clk = 0;
+// always_ff @(posedge db_clk)
+//   if (tmp == 44'd7_000_00) begin
+//     gen_clk <= ~gen_clk;
+//     tmp <= 0;
+//   end
+//   else
+//     tmp += 1'b1;
+
+proc_top #(
+.MEM_LEN(MEM_LEN),
+.LEDS_ADR(LEDS_ADR),
+.INSTR_ADR(INSTR_ADR),
+.DATA1_ADR(DATA1_ADR),
+.DATA2_ADR(DATA2_ADR)
+) proc_top_inst (
+// .clk(gen_clk),
 .clk(db_clk),
 .rst(db_rst),
 .load_data(load_data),
